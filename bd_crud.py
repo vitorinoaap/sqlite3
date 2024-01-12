@@ -1,5 +1,5 @@
 import sqlite3 as lite
-from menu_bd_crud import *
+from bd_crud_menu import *
 
 con = lite.connect('dados.db')  #Cria conexao
 
