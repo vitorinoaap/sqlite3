@@ -8,7 +8,7 @@ def cabecalho(txt):
     print(linha())
 
 
-def leiaint(msg):
+def leiaint(msg, qtd):
     while True:
         try:
             n = int(input(msg))
@@ -21,7 +21,11 @@ def leiaint(msg):
             n = 0
             break
         else:
-            break
+            if n in range(1, qtd+1):
+                break
+            else:
+                n = 0
+                print('\033[31mERRO: Opção inválida\033[m')
     return n
 
 
@@ -32,6 +36,6 @@ def menu(lista):
         print(f'{i} - {item}')
         i += 1
     print(linha())
-    opc = leiaint('Sua opção: ')
+    opc = leiaint('Sua opção: ', len(lista))
 
     return opc
