@@ -1,14 +1,30 @@
 def linha(tam=42):
+    """
+    Desenha uma linha com o símbolo '-', 42 vezes.
+    :param tam: quantidade de repetições
+    :return: imprime a linha x vezes
+    """
     return '-' * tam
 
 
 def cabecalho(txt):
+    """
+    Imprime a msg repassada centralizada
+    :param txt: msg a ser impressa
+    :return:
+    """
     print(linha())
     print(txt.center(42))
     print(linha())
 
 
 def leiaint(msg, qtd):
+    """
+    Lê um num inteiro e testa se ok
+    :param msg: imprime msg repassada
+    :param qtd: quantidade de opções a ser validada
+    :return: o número inteiro referente a opção desejada
+    """
     while True:
         try:
             n = int(input(msg))
@@ -30,6 +46,11 @@ def leiaint(msg, qtd):
 
 
 def menu(lista):
+    """
+    Imprime na tela as opções do menu
+    :param lista: opções a serem escolhidas
+    :return: o número inteiro da opção escolhida
+    """
     cabecalho('MENU PRINCIPAL')
     i = 1
     for item in lista:
@@ -37,5 +58,4 @@ def menu(lista):
         i += 1
     print(linha())
     opc = leiaint('Sua opção: ', len(lista))
-
     return opc
