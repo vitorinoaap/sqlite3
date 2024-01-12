@@ -1,1 +1,2 @@
-Python !!!
+Um CRUD desenvolvido em Python com BD sqlite3 !!!
+...em desenvolvimento constante.....
