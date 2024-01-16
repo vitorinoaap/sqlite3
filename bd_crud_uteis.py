@@ -1,3 +1,14 @@
+from datetime import datetime
+
+
+def data_valida(data):
+    try:
+        datetime.strptime(data, '%d/%m/%Y')
+        return True
+    except ValueError:
+        return False
+
+
 def linha(tam=42):
     """
     Desenha uma linha com o símbolo '-', 42 vezes.
@@ -37,12 +48,41 @@ def leiaint(msg, qtd):
             n = 0
             break
         else:
-            if n in range(1, qtd+1):
+            if n in range(1, qtd + 1):
                 break
             else:
                 n = 0
                 print('\033[31mERRO: Opção inválida\033[m')
     return n
+
+
+def leiafloat(msg):
+    while True:
+        try:
+            n = float(input(msg))
+
+        except (ValueError, TypeError):
+            print('Erro: Digite um número real válido.')
+
+        except KeyboardInterrupt:
+            print('  O usuário preferiu não informar os dados')
+            n = 0
+            break
+        else:
+            break
+    return n
+
+
+def confirma_sn(msg):
+    """
+    Retorna True se resposta = 'S'
+    :param msg: Mensagem a ser exibida
+    :return: Verdadeiro ou Falso
+    """
+    conf = ' '
+    while conf not in 'SN':
+        conf = str(input(msg)).upper().strip()
+    return conf == 'S'
 
 
 def menu(lista):

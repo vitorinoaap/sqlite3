@@ -1,5 +1,5 @@
 import sqlite3 as lite
-from bd_crud_menu import *
+from bd_crud_uteis import *
 
 con = lite.connect('dados.db')  #Cria conexao
 
@@ -11,7 +11,18 @@ cur.execute('CREATE TABLE IF NOT EXISTS invent(id INTEGER PRIMARY KEY AUTOINCREM
 
 # Insere dados
 def inserir_form():
-    dados = ['mesa de pingpong', 'sala de jogos', '08/01/2024', 2198.00, 'c:imagens']
+    cabecalho('INSERE DADOS')
+    desc = str(input('Descrição: '))
+    local = str(input('Local: '))
+    data = str(input('Data: [DD/MM/AAAA] '))
+    print(data_valida(data))
+    valor = leiafloat('Valor: R$')
+
+    if confirma_sn('Confirma a inclusão? [S/N]'):
+        dados = [desc, local, data, valor, 'c:imagens']
+    else:
+        return
+
     with con:
         cur = con.cursor()
         query = 'INSERT INTO invent(nome, local, data, valor, imagem) VALUES(?,?,?,?,?)'
@@ -68,10 +79,15 @@ def sair():
     quit()
 
 
-# Abaixo, o controle do menu.  Poderia ter colocado em um arquivo a parte...
-opções = ['Insere dados', 'Altera', 'Deleta', 'Ver individual', 'Ver todos', 'Sair']
-funções = {1: inserir_form, 2: atualizar_form, 3: deletar_form, 4: ver_individual, 5: ver_form, 6: sair}
+def main():
+    # Abaixo, o controle do menu.
+    opções = ('Insere dados', 'Altera', 'Deleta', 'Ver individual', 'Ver todos', 'Sair')
+    funções = {1: inserir_form, 2: atualizar_form, 3: deletar_form, 4: ver_individual, 5: ver_form, 6: sair}
 
-while True:
-    resposta = menu(opções)
-    funções[resposta]()
+    while True:
+        resposta = menu(opções)
+        funções[resposta]()
+
+
+if __name__ == '__main__':
+    main()
