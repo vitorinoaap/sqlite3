@@ -1,12 +1,26 @@
 from datetime import datetime
 
+def data_valida(msg=''):
+    """
+    Retorna uma data válida no formato dd/mm/aaaa.
+    :param msg: opcional, mensagem a ser exibida no input
+    :return: uma data
+    """
+    while True:
+        try:
+            dt = str(input(msg))
+            datetime.strptime(dt, '%d/%m/%Y')
 
-def data_valida(data):
-    try:
-        datetime.strptime(data, '%d/%m/%Y')
-        return True
-    except ValueError:
-        return False
+        except (ValueError, TypeError):
+            print('Erro: Digite uma data válida.')
+
+        except KeyboardInterrupt:
+            print('  O usuário preferiu não informar os dados')
+            dt = ''
+            break
+        else:
+            break
+    return dt
 
 
 def linha(tam=42):
@@ -29,12 +43,11 @@ def cabecalho(txt):
     print(linha())
 
 
-def leiaint(msg, qtd):
+def leiaint(msg=''):
     """
     Lê um num inteiro e testa se ok
-    :param msg: imprime msg repassada
-    :param qtd: quantidade de opções a ser validada
-    :return: o número inteiro referente a opção desejada
+    :param msg: opcional, imprime msg repassada
+    :return: o número inteiro
     """
     while True:
         try:
@@ -48,15 +61,16 @@ def leiaint(msg, qtd):
             n = 0
             break
         else:
-            if n in range(1, qtd + 1):
-                break
-            else:
-                n = 0
-                print('\033[31mERRO: Opção inválida\033[m')
+            break
     return n
 
 
-def leiafloat(msg):
+def leiafloat(msg=''):
+    """
+    Lê um num real e testa se ok
+    :param msg: opcional, msg a ser exibida no input
+    :return: o num real
+    """
     while True:
         try:
             n = float(input(msg))
@@ -92,10 +106,21 @@ def menu(lista):
     :return: o número inteiro da opção escolhida
     """
     cabecalho('MENU PRINCIPAL')
-    i = 1
-    for item in lista:
+    # i = 1
+    # for item in lista:
+    #     print(f'{i} - {item}')
+    #     i += 1
+
+    for i, item in enumerate(lista, 1):
         print(f'{i} - {item}')
-        i += 1
+
     print(linha())
-    opc = leiaint('Sua opção: ', len(lista))
+
+    while True:
+        opc = leiaint('Sua opção: ')
+        if opc in range(1, len(lista) + 1):
+            break
+        else:
+            print('\033[31mERRO: Opção inválida\033[m')
+
     return opc

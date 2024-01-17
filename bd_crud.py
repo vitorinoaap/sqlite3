@@ -14,8 +14,7 @@ def inserir_form():
     cabecalho('INSERE DADOS')
     desc = str(input('Descrição: '))
     local = str(input('Local: '))
-    data = str(input('Data: [DD/MM/AAAA] '))
-    print(data_valida(data))
+    data = data_valida('Data: [DD/MM/AAAA] ')
     valor = leiafloat('Valor: R$')
 
     if confirma_sn('Confirma a inclusão? [S/N]'):
