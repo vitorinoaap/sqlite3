@@ -1,7 +1,7 @@
 import sqlite3 as lite
 from bd_crud_uteis import *
 
-con = lite.connect('dados.db')  #Cria conexao
+con = lite.connect('dados.db')  # Cria conexao
 
 cur = con.cursor()
 
@@ -9,7 +9,7 @@ cur.execute('CREATE TABLE IF NOT EXISTS invent(id INTEGER PRIMARY KEY AUTOINCREM
             'valor DECIMAL, imagem TEXT)')
 
 
-# Insere dados
+# Insere dados------------------------------------------------
 def inserir_form():
     cabecalho('INSERE DADOS')
     desc = str(input('Descrição: '))
@@ -23,15 +23,13 @@ def inserir_form():
         return
 
     with con:
-        cur = con.cursor()
         query = 'INSERT INTO invent(nome, local, data, valor, imagem) VALUES(?,?,?,?,?)'
         cur.execute(query, dados)
 
 
-#Ver os dados
+# Ver os dados----------------------------------------------
 def ver_form():
     with con:
-        cur = con.cursor()
         query = 'SELECT * FROM invent'
         cur.execute(query)
 
@@ -44,35 +42,86 @@ def ver_form():
             print()
 
 
-#Atualizar
+# Atualizar----------------------------------------------------
 def atualizar_form():
-    dados = ['fogo2', 'cozinha', '08/01/2024', 198.97, 'c:imagens', 9]
+    cabecalho('ALTERA DADOS')
+    reg = leiaint('Qual o num do registro? ')
+
     with con:
-        cur = con.cursor()
-        query = 'UPDATE invent SET nome=?, local=?, data=?, valor=?, imagem=? WHERE id=?'
-        cur.execute(query, dados)
+        query = 'SELECT * FROM invent WHERE id=?'
+        cur.execute(query, [reg])
+        fila = cur.fetchall()
+
+    if len(fila) > 0:  # Encontrou o registro
+        ident, desc, local, data, valor, imagem = fila[0]
+
+        # Calcula quantidade de itens na tupla
+        temp = list((j for i in fila for j in i))
+        res = len(temp)  # res = Quantidade de itens na tupla
+
+        # Imprime os itens
+        descrição = ('Id.......: ', 'Descrição: ', 'Local....: ', 'Data.....: ', 'Valor....: ', 'Imagem...: ')
+        for i in fila:
+            for c in range(0, res):
+                print(f'{c} - {descrição[c]} {i[c]}')
+            print()
+
+        # LOOP PRA IR TROCANDO ATE NAO QUISER MAIS COM UM 0 PRA SAIR!!!!!!
+        item = 1
+        while item > 0:
+            while True:
+                item = leiaint(f'Qual o item? Do 1 ao {res - 1} para alterar, 0 para sair. ')
+                if item in range(0, res):
+                    break
+
+            match item:
+                case 1:
+                    desc = str(input('Descrição: '))
+                case 2:
+                    local = str(input('Local: '))
+                case 3:
+                    data = data_valida('Data: [DD/MM/AAAA] ')
+                case 4:
+                    valor = leiafloat('Valor: R$')
+                case 5:
+                    imagem = str(input('Imagem: '))
+
+        # TESTA SE HOUVE ALTERAÇÃO, SE NÃO HOUVE NÃO ATUALIZA.
+        dados = (ident, desc, local, data, valor, imagem)
+        if dados != fila[0]:
+
+            if confirma_sn('Confirma a alteração? [S/N]'):
+                dados = [desc, local, data, valor, imagem, reg]
+            else:
+                return
+
+            with con:
+                query = 'UPDATE invent SET nome=?, local=?, data=?, valor=?, imagem=? WHERE id=?'
+                cur.execute(query, dados)
+
+    else:
+        print('\033[31mERRO: Registro não encontrado.\033[m')
 
 
-#Deletar
+# Deletar----------------------------------------------------------------
 def deletar_form():
     i = '5'
     with con:
-        cur = con.cursor()
         query = 'DELETE FROM invent WHERE id=?'
         cur.execute(query, i)
 
 
-#Ver os dados individual
+# Ver os dados individual------------------------------------------------
 def ver_individual():
     i = '8'
     with con:
-        cur = con.cursor()
         query = 'SELECT * FROM invent WHERE id=?'
         cur.execute(query, i)
         fila = cur.fetchall()
         print(fila)
 
 
+# Sair do sistema----------------------------------------------------
 def sair():
     cabecalho('Finalizando...')
     quit()
