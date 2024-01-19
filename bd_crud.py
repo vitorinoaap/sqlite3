@@ -37,7 +37,6 @@ def ver_form():
 
         for i in filas:
             for c in range(0, 6):
-                # print(i[c], ' ', end='')
                 print(i[c], ' ', sep='|', end='')
             print()
 
@@ -57,21 +56,21 @@ def atualizar_form():
 
         # Calcula quantidade de itens na tupla
         temp = list((j for i in fila for j in i))
-        res = len(temp)  # res = Quantidade de itens na tupla
+        qtd_itens = len(temp)  # qtd_itens = Quantidade de itens na tupla
 
         # Imprime os itens
         descrição = ('Id.......: ', 'Descrição: ', 'Local....: ', 'Data.....: ', 'Valor....: ', 'Imagem...: ')
         for i in fila:
-            for c in range(0, res):
+            for c in range(0, qtd_itens):
                 print(f'{c} - {descrição[c]} {i[c]}')
             print()
 
-        # LOOP PRA IR TROCANDO ATE NAO QUISER MAIS COM UM 0 PRA SAIR!!!!!!
+        # LOOP PRA IR TROCANDO ATE NAO QUISER MAIS COM UM 0 PRA SAIR.
         item = 1
         while item > 0:
             while True:
-                item = leiaint(f'Qual o item? Do 1 ao {res - 1} para alterar, 0 para sair. ')
-                if item in range(0, res):
+                item = leiaint(f'Qual o item? Do 1 ao {qtd_itens - 1} para alterar, 0 para sair. ')
+                if item in range(0, qtd_itens):
                     break
 
             match item:
@@ -105,20 +104,59 @@ def atualizar_form():
 
 # Deletar----------------------------------------------------------------
 def deletar_form():
-    i = '5'
+    cabecalho('DELETA DADOS')
+    reg = leiaint('Qual o num do registro? ')
+
     with con:
-        query = 'DELETE FROM invent WHERE id=?'
-        cur.execute(query, i)
+        query = 'SELECT * FROM invent WHERE id=?'
+        cur.execute(query, [reg])
+        fila = cur.fetchall()
+
+    if len(fila) > 0:  # Encontrou o registro
+        # Calcula quantidade de itens na tupla
+        temp = list((j for i in fila for j in i))
+        qtd_itens = len(temp)  # qtd_itens = Quantidade de itens na tupla
+
+        # Imprime os itens
+        descrição = ('Id.......: ', 'Descrição: ', 'Local....: ', 'Data.....: ', 'Valor....: ', 'Imagem...: ')
+        print()
+        for i in fila:
+            for c in range(0, qtd_itens):
+                print(f'{descrição[c]} {i[c]}')
+            print()
+
+        if confirma_sn('Confirma a exclusão? [S/N]'):
+            with con:
+                query = 'DELETE FROM invent WHERE id=?'
+                cur.execute(query, [reg])
+    else:
+        print('\033[31mERRO: Registro não encontrado.\033[m')
 
 
 # Ver os dados individual------------------------------------------------
 def ver_individual():
-    i = '8'
+    cabecalho('VER INDIVIDUAL')
+    reg = leiaint('Qual o num do registro? ')
+
     with con:
         query = 'SELECT * FROM invent WHERE id=?'
-        cur.execute(query, i)
+        cur.execute(query, [reg])
         fila = cur.fetchall()
-        print(fila)
+
+    if len(fila) > 0:  # Encontrou o registro
+        # Calcula quantidade de itens na tupla
+        temp = list((j for i in fila for j in i))
+        qtd_itens = len(temp)  # qtd_itens = Quantidade de itens na tupla
+
+        # Imprime os itens
+        descrição = ('Id.......: ', 'Descrição: ', 'Local....: ', 'Data.....: ', 'Valor....: ', 'Imagem...: ')
+        print()
+        for i in fila:
+            for c in range(0, qtd_itens):
+                print(f'{descrição[c]} {i[c]}')
+            print()
+    else:
+        print('\033[31mERRO: Registro não encontrado.\033[m')
 
 
 # Sair do sistema----------------------------------------------------
