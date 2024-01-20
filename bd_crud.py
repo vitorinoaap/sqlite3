@@ -55,8 +55,7 @@ def atualizar_form():
         ident, desc, local, data, valor, imagem = fila[0]
 
         # Calcula quantidade de itens na tupla
-        temp = list((j for i in fila for j in i))
-        qtd_itens = len(temp)  # qtd_itens = Quantidade de itens na tupla
+        qtd_itens = itens_tupla(fila)
 
         # Imprime os itens
         descrição = ('Id.......: ', 'Descrição: ', 'Local....: ', 'Data.....: ', 'Valor....: ', 'Imagem...: ')
@@ -114,8 +113,7 @@ def deletar_form():
 
     if len(fila) > 0:  # Encontrou o registro
         # Calcula quantidade de itens na tupla
-        temp = list((j for i in fila for j in i))
-        qtd_itens = len(temp)  # qtd_itens = Quantidade de itens na tupla
+        qtd_itens = itens_tupla(fila)
 
         # Imprime os itens
         descrição = ('Id.......: ', 'Descrição: ', 'Local....: ', 'Data.....: ', 'Valor....: ', 'Imagem...: ')
@@ -145,8 +143,7 @@ def ver_individual():
 
     if len(fila) > 0:  # Encontrou o registro
         # Calcula quantidade de itens na tupla
-        temp = list((j for i in fila for j in i))
-        qtd_itens = len(temp)  # qtd_itens = Quantidade de itens na tupla
+        qtd_itens = itens_tupla(fila)
 
         # Imprime os itens
         descrição = ('Id.......: ', 'Descrição: ', 'Local....: ', 'Data.....: ', 'Valor....: ', 'Imagem...: ')

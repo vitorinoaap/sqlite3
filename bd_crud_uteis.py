@@ -23,6 +23,17 @@ def data_valida(msg=''):
     return dt
 
 
+def itens_tupla(fila):
+    """
+    Calcula quantidade de itens na tupla
+    :param fila: a tupla
+    :return: quantidade de itens
+    """
+    temp = list((j for i in fila for j in i))
+    qtd_itens = len(temp)
+    return qtd_itens
+
+
 def linha(tam=42):
     """
     Desenha uma linha com o símbolo '-', 42 vezes.
