@@ -1,3 +1,5 @@
 .venv/
 .idea/
 __pycache__
+.idea/banco sqlite3.iml
+.idea/misc.xml
